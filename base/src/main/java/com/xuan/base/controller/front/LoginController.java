@@ -1,9 +1,11 @@
 package com.xuan.base.controller.front;
 
-import com.xuan.base.entity.front.User;
+import com.xuan.base.entity.front.FrontUser;
 import com.xuan.base.service.front.UserService;
 import com.xuan.base.util.front.CommunityUtil;
 import com.xuan.base.util.front.RedisKeyUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ import com.google.code.kaptcha.Producer;
  * @Description:
  */
 
+@Api(description = "登录注册管理")
 @Controller
 @Slf4j
 public class LoginController {
@@ -53,9 +56,11 @@ public class LoginController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Value("${server.servlet.context-path}")
+    @Value("")
     private String contextPath;
 
+
+    @ApiOperation("注册")
     @GetMapping("/register")
     public String getRegisterPage(){
         return "/site/register";
@@ -67,7 +72,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String register(Model model, User user){
+    public String register(Model model, FrontUser user){
         Map<String, Object> map = userService.register(user);
         if(map==null||map.isEmpty()){
             model.addAttribute("msg","注册成功，我们已经向你的邮箱发送了一封激活邮件，请尽快激活！");

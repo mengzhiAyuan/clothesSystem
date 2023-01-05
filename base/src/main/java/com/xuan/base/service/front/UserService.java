@@ -4,9 +4,8 @@ package com.xuan.base.service.front;
 
 
 import com.xuan.base.entity.front.LoginTicket;
-import com.xuan.base.entity.front.User;
+import com.xuan.base.entity.front.FrontUser;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -17,9 +16,9 @@ import java.util.Map;
 
 public interface UserService {
 
-    User findUserById(int id);
+    FrontUser findUserById(int id);
 
-    Map<String,Object> register(User user);
+    Map<String,Object> register(FrontUser user);
 
     Map<String,Object> login(String username,String password,int expiredSeconds);
 
@@ -30,11 +29,15 @@ public interface UserService {
 //    修改用户头像
     int updateHeader(int userId,String headerUrl);
 
-    User findUserByName(String username);
+    FrontUser findUserByName(String username);
 
     //修改密码
-    Map<String, Object> changePassword(User user, String oldPassword, String newPassword, String confirmPassword);
+    Map<String, Object> changePassword(FrontUser user, String oldPassword, String newPassword, String confirmPassword);
 
-    User findUserByEmail(String email);
+    FrontUser findUserByEmail(String email);
 
+
+    String updateType(int userId, int type);
+
+    String updateStatus(int userId, int status);
 }

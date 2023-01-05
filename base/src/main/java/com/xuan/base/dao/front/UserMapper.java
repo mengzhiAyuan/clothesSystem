@@ -1,7 +1,7 @@
 package com.xuan.base.dao.front;
 
 
-import com.xuan.base.entity.front.User;
+import com.xuan.base.entity.front.FrontUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +15,20 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface UserMapper {
 
-    User selectById(int id);
+    FrontUser selectById(int id);
 
-    User selectByName(String username);
+    FrontUser selectByName(String username);
 
-    User selectByEmail(String email);
+    FrontUser selectByEmail(String email);
 
-    int insertUser(User user);
+    int insertUser(FrontUser user);
 
     int updateStatus(int id,int status);
 
     int updateHeader(int id,String headerUrl);
 
     int updatePassword(int id,String password);
+
+    int updateType(int id,int type);
 
 }

@@ -18,7 +18,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class FrontUser {
 
     private static final int USER_SEX_UNKONW = 2;//性别未知
     private static final int USER_DEFAULT_TYPE = 0;//普通用户

@@ -4,7 +4,7 @@ package com.xuan.base.service.front.Impl;
 
 import com.xuan.base.dao.front.UserMapper;
 import com.xuan.base.entity.front.LoginTicket;
-import com.xuan.base.entity.front.User;
+import com.xuan.base.entity.front.FrontUser;
 import com.xuan.base.service.front.UserService;
 import com.xuan.base.util.front.CommunityUtil;
 import com.xuan.base.util.front.RedisKeyUtil;
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findUserById(int id) {
-        User user = getCache(id);
+    public FrontUser findUserById(int id) {
+        FrontUser user = getCache(id);
         if(user==null){
             user = initCache(id);
         }
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> register(User user) {
+    public Map<String, Object> register(FrontUser user) {
 
         HashMap<String, Object> map = new HashMap<>();
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //验证账号
-        User u= userMapper.selectByName(user.getUserName());
+        FrontUser u= userMapper.selectByName(user.getUserName());
         if(u!=null){
             map.put("usernameMsg","该账号已经存在!");
             return map;
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //验证账号
-        User user = userMapper.selectByName(username);
+        FrontUser user = userMapper.selectByName(username);
         if(user==null){
             map.put("usernameMsg","该账号不存在");
             return map;
@@ -163,19 +163,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByName(String username) {
+    public FrontUser findUserByName(String username) {
         return userMapper.selectByName(username);
     }
 
     //1.优先从缓存中取值
-    private User getCache(int userId){
+    private FrontUser getCache(int userId){
         String redisKey = RedisKeyUtil.getUserKey(userId);
-        return (User) redisTemplate.opsForValue().get(redisKey);
+        return (FrontUser) redisTemplate.opsForValue().get(redisKey);
     }
 
     //2.取不到时初始化缓存数据
-    private User initCache(int userId){
-        User user =userMapper.selectById(userId);
+    private FrontUser initCache(int userId){
+        FrontUser user =userMapper.selectById(userId);
         String redisKey = RedisKeyUtil.getUserKey(userId);
         redisTemplate.opsForValue().set(redisKey,user,3600, TimeUnit.SECONDS);
         return user;
@@ -189,7 +189,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    public Map<String, Object> changePassword(User user, String oldPassword, String newPassword, String confirmPassword) {
+    public Map<String, Object> changePassword(FrontUser user, String oldPassword, String newPassword, String confirmPassword) {
         Map<String, Object> map = new HashMap<>();
         // 验证密码
         if (!user.getPassword().equals(oldPassword)) {
@@ -214,8 +214,24 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
-    public User findUserByEmail(String email) {
+    public FrontUser findUserByEmail(String email) {
         return userMapper.selectByEmail(email);
+    }
+
+    @Override
+    public String updateType(int userId, int type) {
+        int i = userMapper.updateType(userId,type);
+        if(i==0){
+            return "开通会员失败";
+        }else{
+            return "成功";
+        }
+    }
+
+    @Override
+    public String updateStatus(int userId, int status) {
+        int i = userMapper.updateStatus(userId,status);
+        return "";
     }
 
 }

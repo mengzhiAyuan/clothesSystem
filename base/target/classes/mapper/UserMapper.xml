@@ -19,25 +19,25 @@
         id, user_name,password,address,email,type,status,mobile,headPic,createTime,sex,expireTime
     </sql>
 
-    <select id="selectById" resultType="FrontUser">
+    <select id="selectById" resultType="User">
         select <include refid="selectFields"></include>
         from clothes.uniqlo_frontuser
         where id=#{id}
     </select>
 
-    <select id="selectByName" resultType="FrontUser">
+    <select id="selectByName" resultType="User">
         select <include refid="selectFields"></include>
         from clothes.uniqlo_frontuser
         where user_name=#{userName}
     </select>
 
-    <select id="selectByEmail" resultType="FrontUser">
+    <select id="selectByEmail" resultType="User">
         select <include refid="selectFields"></include>
         from clothes.uniqlo_frontuser
         where email=#{email}
     </select>
 
-    <insert id="insertUser" parameterType="FrontUser" keyProperty="id">
+    <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into clothes.uniqlo_frontuser(<include refid="insertFields"></include>)
         values(#{userName},#{password},#{address},#{email},#{type},#{status},#{mobile},#{headPic},#{createTime},#{sex},#{expireTime})
     </insert>
